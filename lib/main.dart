@@ -28,22 +28,84 @@ class Course {
   final String title;
   final String description;
   final double price;
+  final String duration;
+  final List<String> topics;
+  final String tutorName;
+  final String tutorBio;
 
   Course({
     required this.level,
     required this.title,
     required this.description,
     required this.price,
+    required this.duration,
+    required this.topics,
+    required this.tutorName,
+    required this.tutorBio,
   });
 }
 
 final List<Course> courseList = [
-  Course(level: 'A1', title: 'Anfänger', description: 'Grundlagen der deutschen Sprache.', price: 99.99),
-  Course(level: 'A2', title: 'Grundlagen', description: 'Einfache Sätze und Alltagsgespräche.', price: 129.99),
-  Course(level: 'B1', title: 'Mittelstufe', description: 'Selbstständige Sprachverwendung.', price: 159.99),
-  Course(level: 'B2', title: 'Gute Mittelstufe', description: 'Fließende und spontane Verständigung.', price: 189.99),
-  Course(level: 'C1', title: 'Fortgeschrittene Kenntnisse', description: 'Anspruchsvolle Texte und komplexe Themen.', price: 219.99),
-  Course(level: 'C2', title: 'Exzellente Kenntnisse', description: 'Müheloses Verstehen und Ausdruck.', price: 249.99),
+  Course(
+    level: 'A1',
+    title: 'Anfänger',
+    description: 'Grundlagen der deutschen Sprache.',
+    price: 99.99,
+    duration: '8 Weeks',
+    topics: ['Alphabet', 'Greetings', 'Basic Grammar'],
+    tutorName: 'Klaus Müller',
+    tutorBio: 'Klaus has been teaching German for over 10 years and is passionate about helping beginners.',
+  ),
+  Course(
+    level: 'A2',
+    title: 'Grundlagen',
+    description: 'Einfache Sätze und Alltagsgespräche.',
+    price: 129.99,
+    duration: '8 Weeks',
+    topics: ['Sentence Structure', 'Common Phrases', 'Shopping'],
+    tutorName: 'Sabine Schmidt',
+    tutorBio: 'Sabine specializes in making learning fun and interactive for elementary-level students.',
+  ),
+  Course(
+    level: 'B1',
+    title: 'Mittelstufe',
+    description: 'Selbstständige Sprachverwendung.',
+    price: 159.99,
+    duration: '10 Weeks',
+    topics: ['Intermediate Grammar', 'Conversational Skills', 'Writing Emails'],
+    tutorName: 'Lars Weber',
+    tutorBio: 'Lars has a PhD in German literature and enjoys teaching intermediate learners.',
+  ),
+  Course(
+    level: 'B2',
+    title: 'Gute Mittelstufe',
+    description: 'Fließende und spontane Verständigung.',
+    price: 189.99,
+    duration: '10 Weeks',
+    topics: ['Advanced Grammar', 'Debates and Discussions', 'Formal Writing'],
+    tutorName: 'Heike Fischer',
+    tutorBio: 'Heike is a certified examiner for B2-level exams and knows how to get you ready.',
+  ),
+  Course(
+    level: 'C1',
+    title: 'Fortgeschrittene Kenntnisse',
+    description: 'Anspruchsvolle Texte und komplexe Themen.',
+    price: 219.99,
+    duration: '12 Weeks',
+    topics: ['Complex Sentence Structures', 'Academic Writing', 'German Culture'],
+    tutorName: 'Jürgen Wagner',
+    tutorBio: 'Jürgen is a university lecturer with extensive experience in teaching advanced students.',
+  ),
+  Course(
+    level: 'C2',
+    title: 'Exzellente Kenntnisse',
+    description: 'Müheloses Verstehen und Ausdruck.',
+    price: 249.99,
+    duration: '12 Weeks',
+    topics: ['Nuances of the German Language', 'Specialized Vocabulary', 'Presentation Skills'],
+    tutorName: 'Angelika Becker',
+    tutorBio: 'Angelika is a native speaker with a passion for helping students achieve near-native fluency.',
+  ),
 ];
 
 final GoRouter _router = GoRouter(
@@ -70,6 +132,14 @@ final GoRouter _router = GoRouter(
       path: '/home',
       builder: (BuildContext context, GoRouterState state) {
         return const HomeScreen();
+      },
+    ),
+    GoRoute(
+      path: '/course-details/:level',
+      builder: (BuildContext context, GoRouterState state) {
+        final level = state.pathParameters['level']!;
+        final course = courseList.firstWhere((c) => c.level == level);
+        return CourseDetailsScreen(course: course);
       },
     ),
   ],
@@ -222,7 +292,7 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(height: 24),
               TextButton(
                 onPressed: () => context.go('/signup'),
-                child: const Text('Don\'t have an account? Sign up'),
+                child: const Text('Don't have an account? Sign up'),
               ),
               const SizedBox(height: 24),
               Text(
@@ -330,38 +400,41 @@ class CourseSelectionScreen extends StatelessWidget {
             elevation: 4,
             margin: const EdgeInsets.symmetric(vertical: 8.0),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${course.level}: ${course.title}',
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.primary,
+            child: InkWell(
+              onTap: () => context.go('/course-details/${course.level}'),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${course.level}: ${course.title}',
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(course.description, style: Theme.of(context).textTheme.bodyMedium),
+                    const SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '€${course.price.toStringAsFixed(2)}',
+                          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).colorScheme.secondary,
+                              ),
                         ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(course.description, style: Theme.of(context).textTheme.bodyMedium),
-                  const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        '€${course.price.toStringAsFixed(2)}',
-                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.secondary,
-                            ),
-                      ),
-                      ElevatedButton(
-                        onPressed: () => context.go('/home'),
-                        child: const Text('Enroll'),
-                      ),
-                    ],
-                  ),
-                ],
+                        ElevatedButton(
+                          onPressed: () => context.go('/home'),
+                          child: const Text('Enroll'),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           );
@@ -400,13 +473,12 @@ class HomeScreen extends StatelessWidget {
         ),
         itemCount: courseLevels.length,
         itemBuilder: (context, index) {
+          final course = courseList[index];
           return Card(
             elevation: 4,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             child: InkWell(
-              onTap: () {
-                // Navigate to course detail screen
-              },
+              onTap: () => context.go('/course-details/${course.level}'),
               child: Center(
                 child: Text(
                   courseLevels[index],
@@ -419,6 +491,101 @@ class HomeScreen extends StatelessWidget {
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+class CourseDetailsScreen extends StatelessWidget {
+  final Course course;
+
+  const CourseDetailsScreen({super.key, required this.course});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(course.title),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '${course.level}: ${course.title}',
+              style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              course.description,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const SizedBox(height: 24),
+            _buildDetailRow(context, Icons.calendar_today, 'Duration', course.duration),
+            _buildDetailRow(context, Icons.topic, 'Topics Covered', course.topics.join(', ')),
+            _buildDetailRow(context, Icons.person, 'Tutor', course.tutorName),
+            const SizedBox(height: 16),
+            Text(
+              'About the Tutor',
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              course.tutorBio,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            const SizedBox(height: 24),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '€${course.price.toStringAsFixed(2)}',
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
+                ),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: const Text('Enroll Now'),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDetailRow(BuildContext context, IconData icon, String title, String subtitle) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        children: [
+          Icon(icon, color: Theme.of(context).colorScheme.primary),
+          const SizedBox(width: 16),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 4),
+              SizedBox(
+                width: MediaQuery.of(context).size.width - 80,
+                child: Text(
+                  subtitle,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

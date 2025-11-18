@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -292,7 +294,7 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(height: 24),
               TextButton(
                 onPressed: () => context.go('/signup'),
-                child: const Text('Don't have an account? Sign up'),
+                child: const Text('Dont have an account? Sign up'),
               ),
               const SizedBox(height: 24),
               Text(

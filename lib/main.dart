@@ -255,7 +255,7 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Registrieren'),
+        title: const Text('Registrieren / Sign Up'),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -264,10 +264,11 @@ class SignUpScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                'Konto erstellen',
+                'Konto erstellen / Create Account',
                 style: Theme.of(context).textTheme.displaySmall?.copyWith(
                       color: Theme.of(context).colorScheme.primary,
                     ),
+                textAlign: TextAlign.center,
               ),
               const SizedBox(height: 32),
               TextField(
@@ -282,7 +283,7 @@ class SignUpScreen extends StatelessWidget {
               TextField(
                 obscureText: true,
                 decoration: InputDecoration(
-                  labelText: 'Passwort',
+                  labelText: 'Passwort / Password',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -292,7 +293,7 @@ class SignUpScreen extends StatelessWidget {
               TextField(
                 obscureText: true,
                 decoration: InputDecoration(
-                  labelText: 'Passwort bestätigen',
+                  labelText: 'Passwort bestätigen / Confirm Password',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -301,7 +302,7 @@ class SignUpScreen extends StatelessWidget {
               const SizedBox(height: 32),
               ElevatedButton(
                 onPressed: () => context.go('/course-selection'),
-                child: const Text('Registrieren'),
+                child: const Text('Registrieren / Sign Up'),
               ),
             ],
           ),

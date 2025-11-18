@@ -166,7 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Ungültige Anmeldeinformationen'),
+          content: Text('Invalid credentials'),
           backgroundColor: Colors.red,
         ),
       );
@@ -183,14 +183,14 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                'Willkommen!',
+                'Welcome!',
                 style: Theme.of(context).textTheme.displayLarge?.copyWith(
                       color: Theme.of(context).colorScheme.primary,
                     ),
               ),
               const SizedBox(height: 8),
               Text(
-                'Melden Sie sich an, um fortzufahren',
+                'Sign in to continue',
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(height: 48),
@@ -208,7 +208,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 controller: _passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
-                  labelText: 'Passwort',
+                  labelText: 'Password',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -217,16 +217,16 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(height: 32),
               ElevatedButton(
                 onPressed: _login,
-                child: const Text('Anmelden'),
+                child: const Text('Login'),
               ),
               const SizedBox(height: 24),
               TextButton(
                 onPressed: () => context.go('/signup'),
-                child: const Text('Noch kein Konto? Registrieren'),
+                child: const Text('Don\'t have an account? Sign up'),
               ),
               const SizedBox(height: 24),
               Text(
-                'Oder melden Sie sich mit an',
+                'Or sign in with',
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(height: 16),
@@ -236,7 +236,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   IconButton(
                     icon: const Icon(Icons.phone),
                     onPressed: () {},
-                    tooltip: 'Mit Telefonnummer anmelden',
+                    tooltip: 'Sign in with phone number',
                   ),
                 ],
               ),
@@ -255,7 +255,7 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Registrieren / Sign Up'),
+        title: const Text('Sign Up'),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -264,7 +264,7 @@ class SignUpScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                'Konto erstellen / Create Account',
+                'Create Account',
                 style: Theme.of(context).textTheme.displaySmall?.copyWith(
                       color: Theme.of(context).colorScheme.primary,
                     ),
@@ -283,7 +283,7 @@ class SignUpScreen extends StatelessWidget {
               TextField(
                 obscureText: true,
                 decoration: InputDecoration(
-                  labelText: 'Passwort / Password',
+                  labelText: 'Password',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -293,7 +293,7 @@ class SignUpScreen extends StatelessWidget {
               TextField(
                 obscureText: true,
                 decoration: InputDecoration(
-                  labelText: 'Passwort bestätigen / Confirm Password',
+                  labelText: 'Confirm Password',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -302,7 +302,7 @@ class SignUpScreen extends StatelessWidget {
               const SizedBox(height: 32),
               ElevatedButton(
                 onPressed: () => context.go('/course-selection'),
-                child: const Text('Registrieren / Sign Up'),
+                child: const Text('Sign Up'),
               ),
             ],
           ),
@@ -319,7 +319,7 @@ class CourseSelectionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Wählen Sie Ihren Kurs'),
+        title: const Text('Select Your Course'),
       ),
       body: ListView.builder(
         padding: const EdgeInsets.all(16.0),
@@ -357,7 +357,7 @@ class CourseSelectionScreen extends StatelessWidget {
                       ),
                       ElevatedButton(
                         onPressed: () => context.go('/home'),
-                        child: const Text('Einschreiben'),
+                        child: const Text('Enroll'),
                       ),
                     ],
                   ),
@@ -381,7 +381,7 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Meine Kurse'),
+        title: const Text('My Courses'),
         actions: [
           IconButton(
             icon: Icon(themeProvider.themeMode == ThemeMode.dark ? Icons.light_mode : Icons.dark_mode),
